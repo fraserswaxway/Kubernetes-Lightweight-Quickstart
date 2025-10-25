@@ -1,30 +1,18 @@
 # Kubernetes-Lightweight-Quickstart
 Quickstart on using K3S
 
-# Kubernetes [Lightweight] Quickstart
-
 ### Abstract
 
-A hundred years a ago words such as computer, network,
-firewall, and privacy had different connotations
-than today. Even in recent decades access control was often provided
-using physical constructs. Eventually controllers were introduced,
-cables to terminals got longer, the Ethernet became adopted,
-modems connected networks, ARPANET succeeded, and finally the Internet.
-Many evolutions have occurred in software development as well. Yet most
-modern access control mechanisms seem stuck in the past. Years ago, locks and keys
-were used on doors to keep things from coming in and things from coming out, and most
-vaults had a single door. This sounds surprising similar to how most
-organizations handle Internet security. That is, most have utilize a single
-device to handle Internet security. The device is a modern day equivalent of
-a single access door. Everything coming in and out of a single point. It's
-time to evolve and adapt. In this paper, we will share some recent
-evolutions in access controls and some ideas on what may be logical
-next steps.
-
+Throughout my career there has been endless change and as a result endless learning.
+I enjoy the challenge. Recently, I decided to refine my Infrastructure as Code (IaC)
+skills by creating a project with the intent to write a simple how-to mixing Terradata (OpenTofu)
+with KinD (Kubernetes in Docker) and a deployment of microservice using OpenFaaS Community Edition (CE).
+The end result is documented at https://fraserswaxway.github.io/tofu-quick-start/ and all the files are
+at https://github.com/fraserswaxway/tofu-quick-start. Most [somewhat] technical people should be
+able to use the provided files and see a result in around 30 minutes.
 
 ### Contents
-1. [Introduction](#introduction)
+1. [Environment](#environment)
 2. [Folder and Files](#folder)
 3. [HashiCorp Configuration Language (HCL)](#hcl)<br>
    3.1 [Functions](#functions)<br>
@@ -48,3 +36,17 @@ and soundproofing as physical barriers. Languages and codes
 can also be barriers.
 
 ![OSI 7 Layers](https://miro.medium.com/v2/resize:fit:720/format:webp/0*_APAwpghit64dMkW.png)
+
+
+References
+https://kubernetes.io/docs/concepts/overview/
+
+### About the Author
+
+Stuart Fraser has a Master of Science in Computer Science from Old Dominion University and is a
+consulting Principal Architect at [Axway](https://axway.com/).
+
+### Acknowledgements
+
+Special thanks to [Axway](https://axway.com/) for affording and enabling skills development.
+
