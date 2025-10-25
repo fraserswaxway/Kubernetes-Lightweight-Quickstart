@@ -30,11 +30,12 @@ able to use the provided files and see a result in around 30 minutes.
 ### 1. Introduction <a id="introduction"/>
 
 
-[K3s](https://docs.k3s.io/) is a lightweight version of Kubernetes (K3s). K3s runs on most modern 
+[K3s](https://docs.k3s.io/) is a lightweight version of Kubernetes (K3s) which runs on most modern 
 Linux operating systems ([Requirements](https://docs.k3s.io/installation/requirements)).  
-It is quick and easy to install.
-Installation of K3s directly with LXC (Linux Container) can be move involved 
+It is quick and easy to install. Installation of K3s directly with LXC (Linux Container) can be move involved 
 ([Mills, 2022](https://garrettmills.dev/blog/2022/04/18/Rancher-K3s-Kubernetes-on-Proxmox-Container/)).
+
+
 
 
 
