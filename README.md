@@ -24,18 +24,82 @@ able to use the provided files and see a result in around 30 minutes.
 5. [cURL Validation](#curl)
 6. [Command Line Interface (CLI) - Destroy](#destroy)
 7. [Tips](#tips)
+8. [References](#references)
 
 
 ### 1. Introduction <a id="introduction"/>
+
+
+[K3s](https://docs.k3s.io/) is a lightweight version of Kubernetes (K3s). K3s runs on most modern 
+Linux operating systems ([Requirements](https://docs.k3s.io/installation/requirements)).  
+It is quick and easy to install.
+Installation of K3s directly with LXC (Linux Container) can be move involved 
+([Mills, 2022](https://garrettmills.dev/blog/2022/04/18/Rancher-K3s-Kubernetes-on-Proxmox-Container/)).
+
+
+
+
+https://garrettmills.dev/blog/2022/04/18/Rancher-K3s-Kubernetes-on-Proxmox-Container/
+
+
+
+
+quick to install 
+Lightweight Kubernetes. Easy to install, half the memory, all in a binary of less than 100 MB.
+
+
+
+(K3s)
+
 
 Most human communication is sensory based. Block senses and
 most communication is prevented. Many organizations practice
 blocking senses to protect information. Most are familiar
 the use of distance, walls, rooms, doors, curtains,
 and soundproofing as physical barriers. Languages and codes
-can also be barriers.
+can also be barriers. 
+
+
 
 ![OSI 7 Layers](https://miro.medium.com/v2/resize:fit:720/format:webp/0*_APAwpghit64dMkW.png)
+
+
+### 8. References <a id="references"/>
+
+
+K3s - Lightweight Kubernetes. (2025). https://docs.k3s.io/
+
+Requirements. (2025). https://docs.k3s.io/installation/requirements
+
+Mills, G. (2022). _Kubernetes on Proxmox Containers_. 
+https://garrettmills.dev/blog/2022/04/18/Rancher-K3s-Kubernetes-on-Proxmox-Container/
+
+
+
+2015-2025 Garrett Mills — Technical Info
+
+(n.d.)
+
+K3s Project Authors. (2025). K3s - Lightweight Kubernetes. https://docs.k3s.io/
+
+K3s Project Authors. (2025). K3s - Lightweight Kubernetes, 
+Installation, Requirements. https://docs.k3s.io/installation/requirements
+
+
+_K3s - Lightweight Kubernetes_. (n.d.). https://docs.k3s.io/
+
+
+
+Copyright © 2025 K3s Project Authors. All rights reserved.
+
+
+
+
+Grady, J. S., Her, M., Moreno, G., Perez, C., & Yelinek, J. (2019). 
+Emotions in storybooks: A comparison of storybooks that represent ethnic 
+and racial groups in the United States. Psychology of Popular Media Culture, 
+8(3), 207–217. https://doi.org/10.1037/ppm0000185
+
 
 
 References
