@@ -1,0 +1,4 @@
+mirrors:
+  "ReplaceWithHost:5000":
+    endpoint:
+      - "http://ReplaceWithHost:5000"
