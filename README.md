@@ -64,108 +64,18 @@ podman push --tls-verify=false $(cat /etc/hostname):5000/hello:latest
 sed s/ReplaceWithHost/$(cat /etc/hostname)/g registries.yaml > /etc/rancher/k3s/registries.yaml
 systemctl restart k3s
 
-
-https://192.168.1.430776
-
-
-
-ReplaceWithNodeport=30050 &&
-ReplaceWithIPs=$(ip -f inet -br a | grep UP | cut -f1 -d'/' \
-| awk 'BEGIN {ORS=","} {print "\"http://" $3 ":ReplaceWithNodeport\""}') \
-&& sed s_ReplaceWithIPs_${ReplaceWithIPs}_g registry.yaml \
-| sed s/ReplaceWithNodeport/${ReplaceWithNodeport}/g \
-| sed s/ReplaceWithHost/$(cat /etc/hostname)/g \
-| kubectl apply -f -
-
-sed s/ReplaceWithHost/$(cat /etc/hostname)/g registry.yaml | kubectl apply -f -
-
-
-sed s/ReplaceWithHost/$(cat /etc/hostname)/g hello.yaml | kubectl apply -f -
-
-
-
-
-sed s/ReplaceWithHost/$(cat /etc/hostname)/g hello.yaml | s/ReplaceWithIPs/$(ip -f inet -br a | grep UP | cut -f1 -d'/' | awk 'BEGIN {ORS=","} {print "\"http://" $3 "\""}')/g | kubectl apply -f -
-
-
-IPS=$(ip -f inet -br a | grep UP | cut -f1 -d'/' | awk 'BEGIN {ORS=","} {print "\"http://" $3 "\""}') && echo sed s_ReplaceWithIPs_$IPS_g registry.yaml
-
-
-GOOD
-IPS=$(ip -f inet -br a | grep UP | cut -f1 -d'/' | awk 'BEGIN {ORS=","} {print "\"http://" $3 "\""}') \
-  && sed s/ReplaceWithHost/$(cat /etc/hostname)/g hello.yaml \
-    | s/ReplaceWithIPs/'$IPS'/g \
-    | kubectl apply -f -
-
-
-
-sed s/ReplaceWithHost/$(cat /etc/hostname)/g registries.yaml \
-  | sed s_ReplaceWithIPs_$(ip -f inet -br a | grep UP | cut -f1 -d'/' | awk 'BEGIN {ORS=","} {print "\"http://" $3 "\""}')_g
-
-  > /etc/rancher/k3s/registries.yaml \ 
-
-
-
-
-IPS=$(ip -f inet -br a | grep UP | cut -f1 -d'/' | awk 'BEGIN {ORS=","} {print "\"http://" $3 "\""}') && echo sed s_ReplaceWithIPs_${IPS}_g registry.yaml
-
-
-
-$(ip -f inet -br a | grep UP | cut -f1 -d'/' | awk 'BEGIN {ORS=","} {print "\"http://" $3 "\""}')
-
-
-
-
-kubectl describe pod hello
-
-
-
-
-
-
-kubectl apply -f registry.yaml
-
-
-
-
-cat /etc/hostname
-echo hi $(cat /etc/hostname)
-
-
-ReplaceWithHost
-
-
-sed -i 's/old_string/new_string/g' filename
-
-
-hostname --short
-cat my-manifest.yaml | kubectl apply -f -
-
-
-
-
-
 kubectl apply -n portainer -f https://downloads.portainer.io/ce-lts/portainer.yaml
 http://192.168.1.2:30777/
 
 
+https://192.168.1.430776
 
-
-
+kubectl describe pod hello
 
 kubectl get nodes
 
-
-
-
-
 vi /etc/systemd/system/k3s.service
-
-
 vi /etc/systemd/system/k3s.service.env
-
-
-
 
 
 
