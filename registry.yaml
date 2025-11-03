@@ -15,32 +15,6 @@ spec:
     requests:
       storage: 10Gi
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: registry-config
-  namespace: docker-registry
-data:
-  config.yml: |
-    version: 0.1
-    log:
-      fields:
-        service: registry
-    storage:
-      cache:
-        blobdescriptor: inmemory
-      filesystem:
-        rootdirectory: /var/lib/registry
-    delete:
-      enabled: true
-    http:
-      addr: :5000
-      headers:
-        Access-Control-Allow-Origin: ["*"]
-        Access-Control-Allow-Credentials: [true]
-        Access-Control-Allow-Headers: ['Authorization', 'Accept', 'Cache-Control']
-        Access-Control-Allow-Methods: ['HEAD', 'GET', 'OPTIONS', 'DELETE']
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -72,15 +46,10 @@ spec:
           volumeMounts:
             - name: registry-storage
               mountPath: /var/lib/registry
-            - name: registry-config
-              mountPath: /etc/docker/registry
       volumes:
         - name: registry-storage
           persistentVolumeClaim:
             claimName: registry-pvc
-        - name: registry-config
-          configMap:
-            name: registry-config
 ---
 apiVersion: v1
 kind: Service
@@ -95,14 +64,6 @@ spec:
       port: 5000
       targetPort: 5000
   type: LoadBalancer
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: docker-registry-ui-config
-  namespace: docker-registry
-data:
-  registry_url: http://ReplaceWithHost:5000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -121,18 +82,11 @@ spec:
     spec:
       containers:
         - name: docker-registry-ui
-          image: joxit/docker-registry-ui:latest
-          ports:
-            - containerPort: 80
+          image: quiq/registry-ui
           env:
-            - name: REGISTRY_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: docker-registry-ui-config
-                  key: registry_url
-            - name: DELETE_IMAGES
-              value: "true"
-            - name: SINGLE_REGISTRY
+            - name: REGISTRY_HOSTNAME
+              value: "ReplaceWithHost:5000"
+            - name: REGISTRY_INSECURE
               value: "true"
 ---
 apiVersion: v1
@@ -145,8 +99,8 @@ spec:
     app: docker-registry-ui
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 8000
+      targetPort: 8000
       nodePort: 30050
   type: LoadBalancer
 ---
