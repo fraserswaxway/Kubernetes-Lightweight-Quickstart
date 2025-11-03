@@ -58,6 +58,7 @@ apt install curl podman -y
 curl -sfL https://get.k3s.io | sh -
 sed s/ReplaceWithHost/$(cat /etc/hostname)/g registry.yaml \
   | kubectl apply -f -
+go build hello.go
 podman build -t hello .
 podman tag hello:latest $(cat /etc/hostname):5000/hello:latest
 podman push --tls-verify=false $(cat /etc/hostname):5000/hello:latest
