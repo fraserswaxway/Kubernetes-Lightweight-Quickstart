@@ -53,7 +53,7 @@ It is quick and easy to install. Installation of K3s directly with LXC (Linux Co
 A. nit
 
 
-
+```
 apt install curl podman -y
 curl -sfL https://get.k3s.io | sh -
 sed s/ReplaceWithHost/$(cat /etc/hostname)/g registry.yaml \
@@ -65,8 +65,18 @@ podman push --tls-verify=false $(cat /etc/hostname):5000/hello:latest
 sed s/ReplaceWithHost/$(cat /etc/hostname)/g registries.yaml > /etc/rancher/k3s/registries.yaml
 systemctl restart k3s
 
+
+
 kubectl apply -n portainer -f https://downloads.portainer.io/ce-lts/portainer.yaml
 http://192.168.1.2:30777/
+
+http://192.168.1.2:30777/
+
+podman build -t example .
+podman tag localhost/example:latest 192.168.1.2:5000/example:latest
+podman push --tls-verify=false example 192.168.1.2:5000/example:latest
+
+
 
 
 https://192.168.1.430776
@@ -77,6 +87,7 @@ kubectl get nodes
 
 vi /etc/systemd/system/k3s.service
 vi /etc/systemd/system/k3s.service.env
+```
 
 
 
