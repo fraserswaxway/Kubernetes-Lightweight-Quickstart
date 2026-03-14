@@ -1,168 +1,185 @@
-# Kubernetes-Lightweight-Quickstart
-Quickstart on using K3S
+# Containers in Lightweight Kubernetes (K3S) | Jive
 
-### Abstract
+[![Stuart Fraser](https://axway.jiveon.com/api/core/v3/people/4418/avatar?a=6358&amp;width=144&amp;height=144 "Stuart Fraser")](/people/sfraser%40axway.com "Stuart Fraser")
 
-Kubernetes (K8s) is a popular container conductor. That is, K8s
-provides automation of container deployment and high availability
-at scale. K8s  
+# Containers in Lightweight Kubernetes (K3S)
 
-deployment, scaling, and health
-orchestrator 
-orchestration
-In general, Kubernetes requires hardware and some technical expertise.
+Blog Post created by [Stuart Fraser](/people/sfraser%40axway.com) on Mar 11, 2026  
 
-If you have limited hardware or  
-Some desktop variants for containers provide Kubernetes features
+-   Like • Show 2 Likes[2](# "Show 2 Likes")
+-   [Comment](#comments) • [0](#comments)
 
+\*\*\*\*\* **NEW** 15-MINUTE VIDEO: [YouTube](https://axway.jiveon.com/external-link.jspa?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DPHTMiXBmeYw) \*\*\*\*\*
 
-Kubernetes
-Throughout my career there has been endless change and as a result endless learning.
-I enjoy the challenge. Recently, I decided to refine my Infrastructure as Code (IaC)
-skills by creating a project with the intent to write a simple how-to mixing Terradata (OpenTofu)
-with KinD (Kubernetes in Docker) and a deployment of microservice using OpenFaaS Community Edition (CE).
-The end result is documented at https://fraserswaxway.github.io/tofu-quick-start/ and all the files are
-at https://github.com/fraserswaxway/tofu-quick-start. Most [somewhat] technical people should be
-able to use the provided files and see a result in around 30 minutes.
+**CONTENTS**
 
-### Contents
-1. [Environment](#environment)
-2. [Folder and Files](#folder)
-3. [HashiCorp Configuration Language (HCL)](#hcl)<br>
-   3.1 [Functions](#functions)<br>
-   3.2 [Providers](#providers)<br>
-   3.3 [Variables](#variables)<br>
-   3.4 [Data](#data)<br>
-   3.5 [Resource](#resource)<br>
-4. [Command Line Interface (CLI) - Apply](#apply)
-5. [cURL Validation](#curl)
-6. [Command Line Interface (CLI) - Destroy](#destroy)
-7. [Tips](#tips)
-8. [References](#references)
+-   -   [1\. Host](#jive_content_id_1_Host)
+    -   [2\. Tools](#jive_content_id_2_Tools)
+    -   [3\. Light Kubernetes (K3S)](#jive_content_id_3_Light_Kubernetes_K3S)
+    -   [4\. (OPTIONAL) Portainer](#jive_content_id_4_OPTIONAL_Portainer)
+    -   [5\. Registry](#jive_content_id_5_Registry)
+        -   [5.1. Install](#jive_content_id_51_Install)
+        -   [5.2. Download Certificate Authority](#jive_content_id_52_Download_Certificate_Authority)
+        -   [5.3. Configure Registries](#jive_content_id_53_Configure_Registries)
+        -   [5.4. Restart Virtual Machine](#jive_content_id_54_Restart_Virtual_Machine)
+    -   [6\. Container Image](#jive_content_id_6_Container_Image)
+        -   [6.1. Create hello.go](#jive_content_id_61_Create_hellogo)
+        -   [6.2. Create Containerfile](#jive_content_id_62_Create_Containerfile)
+        -   [6.3. Create Image](#jive_content_id_63_Create_Image)
+        -   [6.4. Login Repository](#jive_content_id_64_Login_Repository)
+        -   [6.5. Push Image to Repository](#jive_content_id_65_Push_Image_to_Repository)
+    -   [7\. Deploy](#jive_content_id_7_Deploy)
+        -   [7.1. Create hello.yaml](#jive_content_id_71_Create_helloyaml)
+        -   [7.2. Apply](#jive_content_id_72_Apply)
+    -   [8\. Use](#jive_content_id_8_Use)
+    -   [9\. Script](#jive_content_id_9_Script)
+        -   [9.1. Create file kube.sh](#jive_content_id_91_Create_file_kubesh)
+        -   [9.2. Run](#jive_content_id_92_Run)
+    -   [10\. Additional](#jive_content_id_10_Additional)
+    
 
+This post focuses on selected operating systems and tools. It can be adapted to others as well. Using the selected tools may avoid introducing challenges while still promoting skills and understanding.
 
-### 1. Introduction <a id="introduction"/>
+### 1\. Host
 
+Create a virtual machine (VM) in Axway pcloud using the latest release available for the Debian operating system (OS).
 
-[K3s](https://docs.k3s.io/) is a lightweight version of Kubernetes (K3s) which runs on most modern 
-Linux operating systems ([Requirements](https://docs.k3s.io/installation/requirements)).  
-It is quick and easy to install. Installation of K3s directly with LXC (Linux Container) can be move involved 
-([Mills, 2022](https://garrettmills.dev/blog/2022/04/18/Rancher-K3s-Kubernetes-on-Proxmox-Container/)).
+**NOTE:** Consider a large (XL) configuration.
 
-
-A. nit
-
+### 2\. Tools
 
 ```
-apt install curl podman -y
+systemctl stop xagtsystemctl disable xagtapt update -yapt upgrade -yapt autoremove -yapt install curl git podman -ymkdir -p /opt/cni/binwget https://github.com$(curl -s https://github.com/containernetworking/plugins/releases \  | grep download | grep amd64 | grep tgz\" | sed -n 's/.*href=\"\(\S*\)\".*/\1/p')tar -xvf cni-plugins-linux-amd64-*.tgz -C /opt/cni/bin/curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash -
+```
+
+### 3\. Light Kubernetes (K3S)
+
+```
 curl -sfL https://get.k3s.io | sh -
-sed s/ReplaceWithHost/$(cat /etc/hostname)/g registry.yaml \
-  | kubectl apply -f -
-go build hello.go
-podman build -t hello .
-podman tag hello:latest $(cat /etc/hostname):5000/hello:latest
-podman push --tls-verify=false $(cat /etc/hostname):5000/hello:latest
-sed s/ReplaceWithHost/$(cat /etc/hostname)/g registries.yaml > /etc/rancher/k3s/registries.yaml
-systemctl restart k3s
-
-
-
-kubectl apply -n portainer -f https://downloads.portainer.io/ce-lts/portainer.yaml
-http://192.168.1.2:30777/
-
-http://192.168.1.2:30777/
-
-podman build -t example .
-podman tag localhost/example:latest 192.168.1.2:5000/example:latest
-podman push --tls-verify=false example 192.168.1.2:5000/example:latest
-
-
-
-
-https://192.168.1.430776
-
-kubectl describe pod hello
-
-kubectl get nodes
-
-vi /etc/systemd/system/k3s.service
-vi /etc/systemd/system/k3s.service.env
 ```
 
+### 4\. (OPTIONAL) Portainer
 
+```
+kubectl apply -n portainer -f https://downloads.portainer.io/ce-lts/portainer.yaml
+```
 
-https://garrettmills.dev/blog/2022/04/18/Rancher-K3s-Kubernetes-on-Proxmox-Container/
+**IMPORTANT:** The admin password must be set within minutes at https://<VM>:30779.
 
+### 5\. Registry
 
+#### 5.1. Install
 
+```
+helm repo add harbor https://helm.goharbor.ioKUBECONFIG=/etc/rancher/k3s/k3s.yaml \  helm install registry harbor/harbor \  --set expose.type=ingress \  --set expose.ingress.hosts.core=$(hostname -f | tr '[:upper:]' '[:lower:]') \  --set externalURL=https://$(hostname -f | tr '[:upper:]' '[:lower:]')
+```
 
-quick to install 
-Lightweight Kubernetes. Easy to install, half the memory, all in a binary of less than 100 MB.
+**NOTE:** One can view the registry at https://<VM>.
 
+#### 5.2. Download Certificate Authority
 
+```
+mkdir -p /root/usr/local/share/ca-certificates/$(hostname -f | tr '[:upper:]' '[:lower:]') \  && curl -s -k https://$(hostname -f | tr '[:upper:]' '[:lower:]')/api/v2.0/systeminfo/getcert \  > /root/usr/local/share/ca-certificates/$(hostname -f | tr '[:upper:]' '[:lower:]')/ca.crt
+```
 
-(K3s)
+#### 5.3. Configure Registries
 
+```
+sed s/ReplaceWithHost/$(hostname -f | tr '[:upper:]' '[:lower:]')/g <<EOF \  | sed s/ReplaceWithIP/$(hostname -I | cut -f1 -d' ')/g \  > /etc/rancher/k3s/registries.yamlmirrors:  "ReplaceWithIP":    endpoints:      - "http://ReplaceWithIP"  "ReplaceWithHost:5000":    endpoints:      - "http://ReplaceWithHost"configs:  "ReplaceWithHost":    tls:      ca_file: "/root/usr/local/share/ca-certificates/ReplaceWithHost/ca.crt"EOF
+```
 
-Most human communication is sensory based. Block senses and
-most communication is prevented. Many organizations practice
-blocking senses to protect information. Most are familiar
-the use of distance, walls, rooms, doors, curtains,
-and soundproofing as physical barriers. Languages and codes
-can also be barriers. 
+#### 5.4. Restart Virtual Machine
 
+```
+reboot
+```
 
+### 6\. Container Image
 
-![OSI 7 Layers](https://miro.medium.com/v2/resize:fit:720/format:webp/0*_APAwpghit64dMkW.png)
+#### 6.1. Create hello.go
 
+Here's a tiny bit of Go language which will reply with "hello" if the hello path is called on a HTTP listener. 
 
-### 8. References <a id="references"/>
+No need to install Go language. Compiling will be done inside the container during configuration.
 
+```
+package mainimport (    "fmt"    "net/http")func hello(w http.ResponseWriter, req *http.Request) {    fmt.Fprintf(w, "hello\n")}func main() {    http.HandleFunc("/hello", hello)    http.ListenAndServe(":8080", nil)}
+```
 
-K3s - Lightweight Kubernetes. (2025). https://docs.k3s.io/
+#### 6.2. Create Containerfile
 
-Requirements. (2025). https://docs.k3s.io/installation/requirements
+```
+FROM registry-1.docker.io/library/golang:latestCOPY ./hello.go hello.goRUN go build -o /bin/hello hello.goCMD ["hello"]
+```
 
-Mills, G. (2022). _Kubernetes on Proxmox Containers_. 
-https://garrettmills.dev/blog/2022/04/18/Rancher-K3s-Kubernetes-on-Proxmox-Container/
+**NOTE:** The container is based on and included Go language. The **"RUN go build..."** compiles the source to /bin/hello (bin is in the default PATH for the container.
 
+#### 6.3. Create Image
 
+```
+podman build -t $(hostname -f | tr '[:upper:]' '[:lower:]')/library/hello:latest .
+```
 
-2015-2025 Garrett Mills — Technical Info
+#### 6.4. Login Repository
 
-(n.d.)
+```
+podman login --tls-verify=false $(hostname -f | tr '[:upper:]' '[:lower:]')
+```
 
-K3s Project Authors. (2025). K3s - Lightweight Kubernetes. https://docs.k3s.io/
+**IMPORTANT:** 
 
-K3s Project Authors. (2025). K3s - Lightweight Kubernetes, 
-Installation, Requirements. https://docs.k3s.io/installation/requirements
+-   Username: **admin**
+-   Password: **Harbor12345**  
+      
+    
 
+#### 6.5. Push Image to Repository
 
-_K3s - Lightweight Kubernetes_. (n.d.). https://docs.k3s.io/
+```
+podman push --tls-verify=false $(hostname -f | tr '[:upper:]' '[:lower:]')/library/hello:latest
+```
 
+### 7\. Deploy
 
+#### 7.1. Create hello.yaml
 
-Copyright © 2025 K3s Project Authors. All rights reserved.
+```
+apiVersion: v1kind: Secretmetadata:  name: registry-secrettype: OpaquestringData:  username: admin  password: Harbor12345---apiVersion: apps/v1kind: Deploymentmetadata:  name: hello  labels:    app: hellospec:  replicas: 1  selector:    matchLabels:      app: hello  template:    metadata:      labels:        app: hello    spec:      containers:        - name: hello          image: ReplaceWithHost/library/hello:latest          ports:            - containerPort: 8080      imagePullSecrets:        - name: registry-secret      restartPolicy: Always---apiVersion: v1kind: Servicemetadata:  name: hellospec:  selector:    app: hello  ports:    - protocol: TCP      port: 80 # clusterIP port      targetPort: 8080 # process port      nodePort: 30080 #external  type: NodePort
+```
 
+#### 7.2. Apply
 
+```
+KUBECONFIG=/etc/rancher/k3s/k3s.yaml \  sed s/ReplaceWithHost/$(hostname -f \  | tr '[:upper:]' '[:lower:]')/g hello.yaml \  | kubectl apply -f - --insecure-skip-tls-verify=true
+```
 
+### 8\. Use
 
-Grady, J. S., Her, M., Moreno, G., Perez, C., & Yelinek, J. (2019). 
-Emotions in storybooks: A comparison of storybooks that represent ethnic 
-and racial groups in the United States. Psychology of Popular Media Culture, 
-8(3), 207–217. https://doi.org/10.1037/ppm0000185
+```
+curl -k http://$(hostname -f | tr '[:upper:]' '[:lower:]'):30080/hello
+```
 
+### 9\. Script
 
+The following script does it all.
 
-References
-https://kubernetes.io/docs/concepts/overview/
+#### 9.1. Create file kube.sh
 
-### About the Author
+```
+#!/bin/bashsystemctl stop xagtsystemctl disable xagtDEBIAN_FRONTEND=noninteractive apt update -yDEBIAN_FRONTEND=noninteractive apt upgrade -yDEBIAN_FRONTEND=noninteractive apt autoremove -yDEBIAN_FRONTEND=noninteractive apt install curl git podman -ymkdir -p /opt/cni/binwget https://github.com$(curl -s https://github.com/containernetworking/plugins/releases \  | grep download | grep amd64 | grep tgz\" | sed -n 's/.*href=\"\(\S*\)\".*/\1/p')tar -xvf cni-plugins-linux-amd64-*.tgz -C /opt/cni/bin/curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash -curl -sfL https://get.k3s.io | sh -SECONDS_LEFT=45while [ $SECONDS_LEFT -gt 0 ]; do    printf "\rShort pause: %02d" "$SECONDS_LEFT"    sleep 1    SECONDS_LEFT=$((SECONDS_LEFT - 1))doneecho ""helm repo add harbor https://helm.goharbor.ioKUBECONFIG=/etc/rancher/k3s/k3s.yaml \  helm install registry harbor/harbor \  --set expose.type=ingress \  --set expose.ingress.hosts.core=$(hostname -f | tr '[:upper:]' '[:lower:]') \  --set externalURL=https://$(hostname -f | tr '[:upper:]' '[:lower:]')SECONDS_LEFT=45while [ $SECONDS_LEFT -gt 0 ]; do    printf "\rShort pause: %02d" "$SECONDS_LEFT"    sleep 1    SECONDS_LEFT=$((SECONDS_LEFT - 1))doneecho ""mkdir -p /root/usr/local/share/ca-certificates/$(hostname -f | tr '[:upper:]' '[:lower:]') \  && curl -s -k https://$(hostname -f | tr '[:upper:]' '[:lower:]')/api/v2.0/systeminfo/getcert \  > /root/usr/local/share/ca-certificates/$(hostname -f | tr '[:upper:]' '[:lower:]')/ca.crtsed s/ReplaceWithHost/$(hostname -f | tr '[:upper:]' '[:lower:]')/g <<EOF \  | sed s/ReplaceWithIP/$(hostname -I | cut -f1 -d' ')/g \  > /etc/rancher/k3s/registries.yamlmirrors:  "ReplaceWithIP":    endpoints:      - "http://ReplaceWithIP"  "ReplaceWithHost:5000":    endpoints:      - "http://ReplaceWithHost"configs:  "ReplaceWithHost":    tls:      ca_file: "/root/usr/local/share/ca-certificates/ReplaceWithHost/ca.crt"EOFsystemctl restart k3scat <<EOF > hello.gopackage mainimport (    "fmt"    "net/http")func hello(w http.ResponseWriter, req *http.Request) {    fmt.Fprintf(w, "hello\n")}func main() {    http.HandleFunc("/hello", hello)    http.ListenAndServe(":8080", nil)}EOFcat <<EOF > ContainerfileFROM registry-1.docker.io/library/golang:latestCOPY ./hello.go hello.goRUN go build -o /bin/hello hello.goCMD ["hello"]EOFpodman build -t $(hostname -f | tr '[:upper:]' '[:lower:]')/library/hello:latest .podman login --tls-verify=false $(hostname -f | tr '[:upper:]' '[:lower:]') --username admin --password Harbor12345podman push --tls-verify=false $(hostname -f | tr '[:upper:]' '[:lower:]')/library/hello:latestSECONDS_LEFT=45while [ $SECONDS_LEFT -gt 0 ]; do    printf "\rShort pause: %02d" "$SECONDS_LEFT"    sleep 1    SECONDS_LEFT=$((SECONDS_LEFT - 1))doneecho ""cat <<EOF > hello.yamlapiVersion: v1kind: Secretmetadata:  name: registry-secrettype: OpaquestringData:  username: admin  password: Harbor12345---apiVersion: apps/v1kind: Deploymentmetadata:  name: hello  labels:    app: hellospec:  replicas: 1  selector:    matchLabels:      app: hello  template:    metadata:      labels:        app: hello    spec:      containers:        - name: hello          image: ReplaceWithHost/library/hello:latest          ports:            - containerPort: 8080      imagePullSecrets:        - name: registry-secret      restartPolicy: Always---apiVersion: v1kind: Servicemetadata:  name: hellospec:  selector:    app: hello  ports:    - protocol: TCP      port: 80 # clusterIP port      targetPort: 8080 # process port      nodePort: 30080 #external  type: NodePortEOFKUBECONFIG=/etc/rancher/k3s/k3s.yaml \  sed s/ReplaceWithHost/$(hostname -f \  | tr '[:upper:]' '[:lower:]')/g hello.yaml \  | kubectl apply -f - --insecure-skip-tls-verify=trueSECONDS_LEFT=45while [ $SECONDS_LEFT -gt 0 ]; do    printf "\rShort pause: %02d" "$SECONDS_LEFT"    sleep 1    SECONDS_LEFT=$((SECONDS_LEFT - 1))doneecho ""curl -k http://$(hostname -f | tr '[:upper:]' '[:lower:]'):30080/hello  
+```
 
-Stuart Fraser has a Master of Science in Computer Science from Old Dominion University and is a
-consulting Principal Architect at [Axway](https://axway.com/).
+#### 9.2. Run
 
-### Acknowledgements
+```
+chmod +x kube.sh ; ./kube.sh
+```
 
-Special thanks to [Axway](https://axway.com/) for affording and enabling skills development.
+### 10\. Additional
 
+Others posts which may be of interest:[Setup of Rancher and Kubernetes on Axway PCloud](https://axway.jiveon.com/people/aholmes@axway.com/blog/2023/05/15/setup-of-rancher-and-kubernetes-on-axway-pcloud)
+
+-   [Setup of Rancher and Kubernetes on Axway PClou](https://axway.jiveon.com/people/aholmes@axway.com/blog/2023/05/15/setup-of-rancher-and-kubernetes-on-axway-pcloud)d
+-   [https://git.ecd.axway.org/ajones/b2bi-k8s](https://axway.jiveon.com/external-link.jspa?url=https%3A%2F%2Fgit.ecd.axway.org%2Fajones%2Fb2bi-k8s) 
+
+## Outcomes
