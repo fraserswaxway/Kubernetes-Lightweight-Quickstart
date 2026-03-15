@@ -35,7 +35,6 @@ Blog Post created by [Stuart Fraser](/people/sfraser%40axway.com) on Mar 11, 202
     -   [9\. Script](#jive_content_id_9_Script)
         -   [9.1. Create file kube.sh](#jive_content_id_91_Create_file_kubesh)
         -   [9.2. Run](#jive_content_id_92_Run)
-    -   [10\. Additional](#jive_content_id_10_Additional)
     
 
 This post focuses on selected operating systems and tools. It can be adapted to others as well. Using the selected tools may avoid introducing challenges while still promoting skills and understanding.
@@ -174,12 +173,3 @@ The following script does it all.
 ```
 chmod +x kube.sh ; ./kube.sh
 ```
-
-### 10\. Additional
-
-Others posts which may be of interest:[Setup of Rancher and Kubernetes on Axway PCloud](https://axway.jiveon.com/people/aholmes@axway.com/blog/2023/05/15/setup-of-rancher-and-kubernetes-on-axway-pcloud)
-
--   [Setup of Rancher and Kubernetes on Axway PClou](https://axway.jiveon.com/people/aholmes@axway.com/blog/2023/05/15/setup-of-rancher-and-kubernetes-on-axway-pcloud)d
--   [https://git.ecd.axway.org/ajones/b2bi-k8s](https://axway.jiveon.com/external-link.jspa?url=https%3A%2F%2Fgit.ecd.axway.org%2Fajones%2Fb2bi-k8s) 
-
-## Outcomes
