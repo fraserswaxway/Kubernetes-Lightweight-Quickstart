@@ -1,13 +1,4 @@
-# Containers in Lightweight Kubernetes (K3S) | Jive
-
-[![Stuart Fraser](https://axway.jiveon.com/api/core/v3/people/4418/avatar?a=6358&amp;width=144&amp;height=144 "Stuart Fraser")](/people/sfraser%40axway.com "Stuart Fraser")
-
 # Containers in Lightweight Kubernetes (K3S)
-
-Blog Post created by [Stuart Fraser](/people/sfraser%40axway.com) on Mar 11, 2026  
-
--   Like • Show 2 Likes[2](# "Show 2 Likes")
--   [Comment](#comments) • [0](#comments)
 
 \*\*\*\*\* **NEW** 15-MINUTE VIDEO: [YouTube](https://axway.jiveon.com/external-link.jspa?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DPHTMiXBmeYw) \*\*\*\*\*
 
