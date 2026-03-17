@@ -38,13 +38,13 @@ Start from the latest release available for the Debian operating system (OS).
 
 ### 3\. Light Kubernetes (K3S)
 
-```
+```bash
 curl -sfL https://get.k3s.io | sh -
 ```
 
 ### 4\. (OPTIONAL) Portainer
 
-```
+```bash
 kubectl apply -n portainer -f https://downloads.portainer.io/ce-lts/portainer.yaml
 ```
 
@@ -54,7 +54,7 @@ kubectl apply -n portainer -f https://downloads.portainer.io/ce-lts/portainer.ya
 
 #### 5.1. Install
 
-```
+```bash
 helm repo add harbor https://helm.goharbor.io
 KUBECONFIG=/etc/rancher/k3s/k3s.yaml \
   helm install registry harbor/harbor \
@@ -68,7 +68,7 @@ KUBECONFIG=/etc/rancher/k3s/k3s.yaml \
 
 #### 5.2. Download Certificate Authority
 
-```
+```bash
 mkdir -p /root/usr/local/share/ca-certificates/$(hostname -f | tr '[:upper:]' '[:lower:]') \
   && curl -s -k https://$(hostname -f | tr '[:upper:]' '[:lower:]')/api/v2.0/systeminfo/getcert \
   > /root/usr/local/share/ca-certificates/$(hostname -f | tr '[:upper:]' '[:lower:]')/ca.crt
@@ -96,7 +96,7 @@ EOF
 
 #### 5.4. Restart Virtual Machine
 
-```
+```bash
 reboot
 ```
 
@@ -120,13 +120,13 @@ No need to install Go language. Compiling will be done inside the container duri
 
 #### 6.3. Create Image
 
-```
+```bash
 podman build -t $(hostname -f | tr '[:upper:]' '[:lower:]')/library/hello:latest .
 ```
 
 #### 6.4. Login Repository
 
-```
+```bash
 podman login --tls-verify=false $(hostname -f | tr '[:upper:]' '[:lower:]')
 ```
 
@@ -139,7 +139,7 @@ podman login --tls-verify=false $(hostname -f | tr '[:upper:]' '[:lower:]')
 
 #### 6.5. Push Image to Repository
 
-```
+```bash
 podman push --tls-verify=false $(hostname -f | tr '[:upper:]' '[:lower:]')/library/hello:latest
 ```
 
@@ -171,6 +171,6 @@ The following script does it all.
 [kube.sh](kube.sh)
 
 
-```
+```bash
 chmod +x kube.sh ; ./kube.sh
 ```
