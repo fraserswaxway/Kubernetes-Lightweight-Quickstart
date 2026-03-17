@@ -2,28 +2,27 @@
 
 **CONTENTS**
 
--   -   [1\. Host](#1-host)
-    -   [2\. Tools](#2-tools)
-    -   [3\. Light Kubernetes (K3S)](#3-light-kubernetes-k3s)
-    -   [4\. (OPTIONAL) Portainer](#4-optional-portainer)
-    -   [5\. Registry](#5-registry)
-        -   [5.1. Install](#51-install)
-        -   [5.2. Download Certificate Authority](#52-download-certificate-authority)
-        -   [5.3. Configure Registries](#53-configure-registries)
-        -   [5.4. Restart Virtual Machine](#54-restart-virtual-machine)
-    -   [6\. Container Image](#6-container-image)
-        -   [6.1. Create hello.go](#61-create-hellogo)
-        -   [6.2. Create Containerfile](#62-create-containerfile)
-        -   [6.3. Create Image](#63-create-image)
-        -   [6.4. Login Repository](#64-login-repository)
-        -   [6.5. Push Image to Repository](#65-push-image-to-repository)
-    -   [7\. Deploy](#7-deploy)
-        -   [7.1. Create hello.yaml](#71-create-helloyaml)
-        -   [7.2. Apply](#72-apply)
-    -   [8\. Use](#8-use)
-    -   [9\. Script](#9-script-)
+[1\. Host](#1-host)  
+[2\. Tools](#2-tools)  
+[3\. Light Kubernetes (K3S)](#3-light-kubernetes-k3s)  
+[4\. (OPTIONAL) Portainer](#4-optional-portainer)  
+[5\. Registry](#5-registry)  
+&nbsp;&nbsp;&nbsp;&nbsp;[5.1. Install](#51-install)  
+&nbsp;&nbsp;&nbsp;&nbsp;[5.2. Download Certificate Authority](#52-download-certificate-authority)  
+&nbsp;&nbsp;&nbsp;&nbsp;[5.3. Configure Registries](#53-configure-registries)  
+&nbsp;&nbsp;&nbsp;&nbsp;[5.4. Restart Virtual Machine](#54-restart-virtual-machine)  
+[6\. Container Image](#6-container-image)  
+&nbsp;&nbsp;&nbsp;&nbsp;[6.1. Create hello.go](#61-create-hellogo)  
+&nbsp;&nbsp;&nbsp;&nbsp;[6.2. Create Containerfile](#62-create-containerfile)  
+&nbsp;&nbsp;&nbsp;&nbsp;[6.3. Create Image](#63-create-image)  
+&nbsp;&nbsp;&nbsp;&nbsp;[6.4. Login Repository](#64-login-repository)  
+&nbsp;&nbsp;&nbsp;&nbsp;[6.5. Push Image to Repository](#65-push-image-to-repository)    
+[7\. Deploy](#7-deploy)  
+&nbsp;&nbsp;&nbsp;&nbsp;[7.1. Create hello.yaml](#71-create-helloyaml)    
+&nbsp;&nbsp;&nbsp;&nbsp;[7.2. Apply](#72-apply)  
+[8\. Use](#8-use)  
+[9\. Script](#9-script-)  
     
-
 This post focuses on selected operating systems and tools. It can be adapted to others as well. Using the selected tools may avoid introducing challenges while still promoting skills and understanding.
 
 ### 1\. Host
