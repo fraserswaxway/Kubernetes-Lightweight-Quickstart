@@ -172,5 +172,5 @@ The following script does it all.
 
 
 ```
-chmod +x 91kube.sh ; ./91kube.sh
+chmod +x kube.sh ; ./kube.sh
 ```
