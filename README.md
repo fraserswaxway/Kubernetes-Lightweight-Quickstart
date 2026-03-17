@@ -35,7 +35,7 @@ Start from the latest release available for the Debian operating system (OS).
 
 ### 2\. Tools
 
-\. [20tools.sh](tools.sh)
+\. [tools.sh](tools.sh)
 
 ### 3\. Light Kubernetes (K3S)
 
@@ -56,10 +56,16 @@ kubectl apply -n portainer -f https://downloads.portainer.io/ce-lts/portainer.ya
 #### 5.1. Install
 
 ```
-helm repo add harbor https://helm.goharbor.ioKUBECONFIG=/etc/rancher/k3s/k3s.yaml \  helm install registry harbor/harbor \  --set expose.type=ingress \  --set expose.ingress.hosts.core=$(hostname -f | tr '[:upper:]' '[:lower:]') \  --set externalURL=https://$(hostname -f | tr '[:upper:]' '[:lower:]')
+helm repo add harbor https://helm.goharbor.io
+KUBECONFIG=/etc/rancher/k3s/k3s.yaml \
+  helm install registry harbor/harbor \
+  --set expose.type=ingress \
+  --set expose.ingress.hosts.core=$(hostname -f | tr '[:upper:]' '[:lower:]') \
+  --set externalURL=https://$(hostname -f | tr '[:upper:]' '[:lower:]')
 ```
 
-**NOTE:** One can view the registry at https://<VM>.
+**NOTE:**
+- One can view the registry at https://yourcomputername.
 
 #### 5.2. Download Certificate Authority
 
